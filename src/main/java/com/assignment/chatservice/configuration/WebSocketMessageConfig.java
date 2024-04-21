@@ -9,7 +9,7 @@ import org.springframework.web.socket.config.annotation.*;
  */
 @Configuration
 @EnableWebSocketMessageBroker
-public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+public class WebSocketMessageConfig implements WebSocketMessageBrokerConfigurer {
 
     /**
      * Registers the Stomp endpoints for WebSocket communication.

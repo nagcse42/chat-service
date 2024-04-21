@@ -1,14 +1,21 @@
 package com.assignment.chatservice.controller;
 
 import com.assignment.chatservice.pojos.Message;
+import com.assignment.chatservice.service.ChatService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 public class ChatController {
+
+    @Autowired
+    private ChatService chatService;
+
     /**
      * Registers a user for chat.
      *
@@ -33,5 +40,16 @@ public class ChatController {
     @SendTo("/topic/public")
     public Message sendMessage(@Payload Message chatMessage) {
         return chatMessage;
+    }
+
+    @DeleteMapping(path = "/delete/{userName}")
+    public String deleteMessages(@PathVariable String userName){
+        return "deleted for: "+userName;
+    }
+
+    @GetMapping(path = "/delete/{userName}")
+    public String fetchMessages(@PathVariable String userName){
+        chatService.fetchMessagesByUserName(userName);
+        return "deleted for: "+userName;
     }
 }
