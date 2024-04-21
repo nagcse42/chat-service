@@ -2,15 +2,18 @@ package com.assignment.chatservice.controller;
 
 import com.assignment.chatservice.pojos.Message;
 import com.assignment.chatservice.service.ChatService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
+@RestController
+@Slf4j
 public class ChatController {
 
     @Autowired
@@ -27,6 +30,8 @@ public class ChatController {
     @SendTo("/topic/public")
     public Message register(@Payload Message chatMessage, SimpMessageHeaderAccessor headerAccessor) {
         headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
+        chatMessage.setContent(chatMessage.getSender()+" Joined the chat");
+        chatService.saveMessageDetails(chatMessage);
         return chatMessage;
     }
 
@@ -39,17 +44,21 @@ public class ChatController {
     @MessageMapping("/chat.send")
     @SendTo("/topic/public")
     public Message sendMessage(@Payload Message chatMessage) {
+        chatService.saveMessageDetails(chatMessage);
         return chatMessage;
     }
-
-    @DeleteMapping(path = "/delete/{userName}")
-    public String deleteMessages(@PathVariable String userName){
-        return "deleted for: "+userName;
+    @DeleteMapping("/user/messages/{userName}")
+    public int deleteChat(@PathVariable String userName){
+        return chatService.deleteMessageByUserName(userName);
     }
 
-    @GetMapping(path = "/delete/{userName}")
-    public String fetchMessages(@PathVariable String userName){
-        chatService.fetchMessagesByUserName(userName);
-        return "deleted for: "+userName;
+    @GetMapping("/fetch/user/messages/{userName}")
+    public List<Message> fetchMessagesByUser(@PathVariable String userName){
+        return chatService.fetchMessagesByUserName(userName);
+    }
+
+    @GetMapping("/fetch/messages")
+    public List<Message> fetchAllMessages(@PathVariable String userName){
+        return chatService.fetchMessagesByUserName(userName);
     }
 }
