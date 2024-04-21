@@ -40,6 +40,12 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
+    public List<Message> fetchAllMessagesByChatRoom(String chatRoom) {
+        log.info("fetching all the messages for the chatRoom: {} started", chatRoom);
+        return transformMessageDetailsToMessages(messageDetailsRepository.findByChatRoom(chatRoom));
+    }
+
+    @Override
     public List<Message> fetchAllMessages() {
         log.info("fetching all the messages started");
         return transformMessageDetailsToMessages(messageDetailsRepository.findAll());

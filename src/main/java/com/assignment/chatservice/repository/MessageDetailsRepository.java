@@ -14,4 +14,6 @@ public interface MessageDetailsRepository extends JpaRepository<MessageDetails, 
     List<MessageDetails> findByUserName(String userName);
     @Transactional
     int deleteByUserName(String userName);
+    List<MessageDetails> findByChatRoom(String chatRoom);
+
 }

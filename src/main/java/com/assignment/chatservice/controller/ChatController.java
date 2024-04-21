@@ -20,11 +20,10 @@ public class ChatController {
     private ChatService chatService;
 
     /**
-     * Registers a user for chat.
-     *
-     * param chatMessage The chat message containing the sender's information.
-     * param headerAccessor The SimpMessageHeaderAccessor object used to access session attributes.
-     * return The registered chat message.
+     * Registers a user for chat-room.
+     * @param chatMessage
+     * @param headerAccessor
+     * @return
      */
     @MessageMapping("/chat.register")
     @SendTo("/topic/public")
@@ -36,10 +35,9 @@ public class ChatController {
     }
 
     /**
-     * Sends a chat message to all connected users.
-     *
-     * param chatMessage The chat message to be sent.
-     * return The sent chat message.
+     * Sends a chat message to all the connected users.
+     * @param chatMessage
+     * @return
      */
     @MessageMapping("/chat.send")
     @SendTo("/topic/public")
@@ -47,18 +45,42 @@ public class ChatController {
         chatService.saveMessageDetails(chatMessage);
         return chatMessage;
     }
+
+    /**
+     * Deletes the specific user chat from DB
+     * @param userName
+     * @return
+     */
     @DeleteMapping("/user/messages/{userName}")
     public int deleteChat(@PathVariable String userName){
         return chatService.deleteMessageByUserName(userName);
     }
 
+    /**
+     * Fetch messages for specific user
+     * @param userName
+     * @return
+     */
     @GetMapping("/fetch/user/messages/{userName}")
     public List<Message> fetchMessagesByUser(@PathVariable String userName){
         return chatService.fetchMessagesByUserName(userName);
     }
 
+    /**
+     * fetch all the messages from specific chat room
+     * @return
+     */
+    @GetMapping("/fetch/chatroom/{chatRoom}/messages")
+    public List<Message> fetchAllTheChatRoomMessages(@PathVariable String chatRoom){
+        return chatService.fetchAllMessagesByChatRoom(chatRoom);
+    }
+
+    /**
+     * fetch all the messages
+     * @return
+     */
     @GetMapping("/fetch/messages")
-    public List<Message> fetchAllMessages(@PathVariable String userName){
-        return chatService.fetchMessagesByUserName(userName);
+    public List<Message> fetchAllMessages(){
+        return chatService.fetchAllMessages();
     }
 }
