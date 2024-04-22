@@ -10,15 +10,15 @@ Maven <br>
 
 # Build Process:
 ---------------
-Clone project to folder
-Open terminal inside the project root folder
+Clone project to the folder <br>
+Open terminal inside the project root folder <br>
 Build project: mvn clean install <br>
 Run project: mvn spring-boot:run  <br>
 
 # POST Man  API testing
 ------------------------
-Import the Chat Room Service collection to your postman it is available under project resources folder.
-Postman collection having API's for login, delete message by client, fetch message by client and fetch messages by chatroom
+Import the Chat Room Service collection to your postman it is available under project resources folder.<br>
+Postman collection having API's for login, delete message by client, fetch message by client and fetch messages by chatroom.<br>
 
 # Open API Details:
 ------------------
@@ -29,11 +29,11 @@ http://localhost:8080/api-docs <br>
 http://localhost:8080/swagger-ui/index.html#/ <br>
 
 # WebSocket testing
------------
+-------------------
 for websocket testing open http://localhost:8080/index.html in multiple windows and enter with different user names send messages.
 
 Docker Image Build Commands
---------------------
+--------------------------
 docker build -t chat-service .
 
 
