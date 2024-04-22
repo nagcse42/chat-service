@@ -30,7 +30,7 @@ http://localhost:8080/swagger-ui/index.html#/ <br>
 
 # WebSocket testing
 -------------------
-for websocket testing open http://localhost:8080/index.html in multiple windows and enter with different user names send messages.
+For websocket testing open http://localhost:8080/index.html in multiple windows and enter chatroom with different user names send messages.
 
 Docker Image Build Commands
 --------------------------
