@@ -34,21 +34,13 @@ var colors = [
 
 function connect(event) {
   username = document.querySelector("#name").value.trim();
-  password = document.querySelector("#password").value;
   if (username) {
-    //Enter your password
-    if (password == "hello") {
       usernamePage.classList.add("hidden");
       chatPage.classList.remove("hidden");
 
       var socket = new SockJS("/websocket");
       stompClient = Stomp.over(socket);
-
       stompClient.connect({}, onConnected, onError);
-    } else {
-      let mes = document.getElementById("mes");
-      mes.innerText = "Wrong password";
-    }
   }
   event.preventDefault();
 }
