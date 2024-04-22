@@ -17,9 +17,6 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfigurationSource;
-
-import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -29,8 +26,9 @@ public class SecurityConfig {
                 http
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((authorize) -> authorize
+                .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("*").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET).permitAll()
                         .requestMatchers(HttpMethod.DELETE).permitAll()
                         .requestMatchers(HttpMethod.PUT).permitAll()
@@ -72,17 +70,4 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-
-//    @Bean
-//    public CorsConfigurationSource corsConfiguration() {
-//        return request -> {
-//            org.springframework.web.cors.CorsConfiguration config =
-//                    new org.springframework.web.cors.CorsConfiguration();
-//            config.setAllowedHeaders(Collections.singletonList("*"));
-//            config.setAllowedMethods(Collections.singletonList("*"));
-//            config.setAllowedOriginPatterns(Collections.singletonList("*"));
-//            config.setAllowCredentials(true);
-//            return config;
-//        };
-//    }
 }
